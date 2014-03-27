@@ -1,4 +1,4 @@
-package is.bthj.itu.datamining.frequency;
+package is.bthj.itu.datamining.association;
 
 import is.bthj.itu.datamining.preprocessing.CSVFileReader;
 import is.bthj.itu.datamining.preprocessing.QuestionairePreProcessor;
@@ -15,32 +15,56 @@ import java.util.TreeMap;
 
 public class Apriori {
 
-	// TODO: setup transactions data
+	/*
+	 * Stores frequent item sets for level the Apriori algorithm goes through.
+	 * When generating frequent item sets for one level, those from the previous level
+	 * are useful for detecting if a candidate has infrequent k-1 subsets,
+	 * as can be seen in the method hasInfrequentSubset below.
+	 */
+	Map<Integer, Map<ItemStringSet, Integer>> levelsOfFrequentItemSets;
+	
 	
 	public static void main(String[] args) {
 		
 		Apriori apriori = new Apriori();
 		
-		//String[][] transactions = apriori.getFavoriteProgrammingLanguagesCleanedAndSorted();
+		// Frequency / association analysis for the _Favorite programming languages_ survey data:
+		String[][] transactions = apriori.getFavoriteProgrammingLanguagesCleanedAndSorted();
+		List<ItemStringSet> distinctItems = apriori.getAllDistinctProgrammingLanguages();
 		
-		String[][] transactions = apriori.getTextBookTransactionalData();
-		List<ItemStringSet> distinctItems = apriori.getAllDistinctTextbookItems();
+		// Textbook data (table 6.1) testing:
+//		String[][] transactions = apriori.getTextBookTransactionalData();
+//		List<ItemStringSet> distinctItems = apriori.getAllDistinctTextbookItems();
 		
-		apriori.apriori( transactions, distinctItems, 2 );
+		apriori.apriori( transactions, distinctItems, 2, 70 );
 	}
 	
-	Map<Integer, Map<ItemStringSet, Integer>> levelsOfFrequentItemSets;
 	
+	/*
+	 * Default constructor.
+	 */
 	public Apriori() {
 		levelsOfFrequentItemSets = new HashMap<Integer, Map<ItemStringSet,Integer>>();
 	}
 	
-	/*
-	 * Organization into methods based on code provided with Lab assignments
-	 */
 	
+	
+	///////////////////////////////////////////////////////////////////////////
+	///// Apriori frequent item sets generation algorithms
+	///// - organization into methods below based on code provided with Lab assignments.
+	
+	/**
+	 * Find frequent itemsets within the given support threshold,  
+	 * and generate association rules from those frequent itemsets.
+	 * @param transactions Transactional data to find frequent itemsets in
+	 * @param distinctItems All distinct attribute values occurring in the dataset, ordered.
+	 * @param supportThreshold Mininum support theshold that the frequent itemsets must support.
+	 * @param minimumConfidencePercentage Minimum confidence threshold for generated association rules.
+	 * @return
+	 */
     public List<ItemStringSet> apriori( 
-    		String[][] transactions, List<ItemStringSet> distinctItems, int supportThreshold ) {
+    		String[][] transactions, List<ItemStringSet> distinctItems, 
+    		int supportThreshold, int minimumConfidencePercentage ) {
         int k = 0;
         
         Map<ItemStringSet, Integer> frequentItemSets = 
@@ -50,7 +74,7 @@ public class Apriori {
         for( k = 1; frequentItemSets.size() > 0; k++ ) {
             System.out.print( "Finding frequent itemsets of length " + (k + 1) + "…" );
             frequentItemSets = generateFrequentItemSets( supportThreshold, transactions, frequentItemSets );
-            // TODO: add to list <-------- HÆGT AÐ BERA SAMAN TILVIST OG EKKI TILVIST Í PRUNING
+
             levelsOfFrequentItemSets.put( k+1, frequentItemSets );
 
             System.out.println( " found " + frequentItemSets.size() );
@@ -58,19 +82,16 @@ public class Apriori {
         // Now k-1 indexes to the table of frequent itemsets in levelsOfFrequentItemSets
         frequentItemSets = levelsOfFrequentItemSets.get( --k );
         
-        printFrequentItemSets(frequentItemSets);
+        // Print the found frequent itemsets satisfying the given support theshold:
+        printFrequentItemSets( frequentItemSets, supportThreshold );
         
-        // TODO: create association rules from the frequent itemsets
+        // Create and print association rules from the frequent itemsets:
+        printAssociationRules( frequentItemSets, minimumConfidencePercentage );
 
-        // TODO: return something useful
-        return null;
+
+        return new ArrayList<ItemStringSet>(frequentItemSets.keySet());
     }
-    
-    private void printFrequentItemSets( Map<ItemStringSet, Integer> frequentItemSets ) {
-    	for( ItemStringSet onesSet : frequentItemSets.keySet() ) {
-    		System.out.println( Arrays.toString(onesSet.getSet()) );
-    	}
-    }
+  
 
     private Map<ItemStringSet, Integer> generateFrequentItemSets( 
     		int supportThreshold, String[][] transactions,
@@ -99,14 +120,7 @@ public class Apriori {
 				supportThreshold, transactions, candidates);
         return frequentItemSets;
     }
-    
-    private Map<ItemStringSet, Integer> generateFrequentItemSetsLevel1( 
-    		String[][] transactions, List<ItemStringSet> distinctItems, int supportThreshold ) {
-    	
-        return getFrequentItemSetsFromDistinctAttributeValues( supportThreshold, transactions, distinctItems );
-    }
 
-    
 	private Map<ItemStringSet, Integer> getFrequentItemSetsFromCandidates(
 			int supportThreshold, String[][] transactions,
 			List<ItemStringSet> candidates) {
@@ -122,6 +136,13 @@ public class Apriori {
     	}
 		return frequentItemSets;
 	}
+	
+	
+    private Map<ItemStringSet, Integer> generateFrequentItemSetsLevel1( 
+    		String[][] transactions, List<ItemStringSet> distinctItems, int supportThreshold ) {
+    	
+        return getFrequentItemSetsFromDistinctAttributeValues( supportThreshold, transactions, distinctItems );
+    }
 	
 	private Map<ItemStringSet, Integer> getFrequentItemSetsFromDistinctAttributeValues( 
 			int supportThreshold, String[][] transactions, List<ItemStringSet> distinctItems) {
@@ -226,8 +247,99 @@ public class Apriori {
 		return supportCount;
 	}
 	
+    private void printFrequentItemSets( 
+    		Map<ItemStringSet, Integer> frequentItemSets, int minimumSupport) {
+    	
+    	System.out.println( "***Frequent itemsets with minimum support: " + minimumSupport );
+    	for( ItemStringSet onesSet : frequentItemSets.keySet() ) {
+    		System.out.println( Arrays.toString(onesSet.getSet()) );
+    	}
+    }
 	
-	///// data methods specific to the Favorite programming languages attribute /////
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	///// Association rules methods
+	
+	private void printAssociationRules( 
+			Map<ItemStringSet, Integer> frequentItemSets, int minimumConfidencePercentage ) {
+		
+		System.out.println( "***Association rules with minimum conficence = " + minimumConfidencePercentage + "%" );
+		
+		for( ItemStringSet oneFrequentItemSet : frequentItemSets.keySet() ) {
+			
+			List<ItemStringSet> frequentItemSubsets = 
+					getAllNonemptySubsets(oneFrequentItemSet);
+			for( ItemStringSet oneFrequentItemSubset : frequentItemSubsets ) {
+				
+				ItemStringSet complementarySet = 
+						getComplementarySubsetFromSuperset(
+								oneFrequentItemSet, oneFrequentItemSubset);
+				
+				// As in P( B | A ):
+				// B
+				int eventProbability = levelsOfFrequentItemSets.get(
+						oneFrequentItemSubset.size()+complementarySet.size()).get( // support_count( A U B )
+								new ItemStringSet(oneFrequentItemSubset, complementarySet) ); 
+				
+				// A
+				int conditionProbability = levelsOfFrequentItemSets.get( // support_count( A )
+						oneFrequentItemSubset.size()).get(oneFrequentItemSubset);
+				
+				
+				float confidence = (float) eventProbability / conditionProbability;
+				int confidencePercentage = Math.round(confidence*100);
+				
+				if( confidencePercentage >= minimumConfidencePercentage ) {
+					
+					System.out.println( oneFrequentItemSubset + " => " + complementarySet + 
+							", confidence = " + eventProbability + "/" + conditionProbability 
+							+ " = " + confidencePercentage + "%" );
+				}
+			}
+		}
+	}
+	
+	private List<ItemStringSet> getAllNonemptySubsets( ItemStringSet frequentItemSet ) {
+		
+		List<ItemStringSet> subsets = new ArrayList<ItemStringSet>();
+		
+		KSubsets kSubsets = new KSubsets( frequentItemSet );
+		
+		for( int i = frequentItemSet.size() - 1; i > 0; i-- ) {
+			
+			subsets.addAll( kSubsets.getKSubsets(i) );
+		}
+		return subsets;
+	}
+	
+	private ItemStringSet getComplementarySubsetFromSuperset( 
+			ItemStringSet superset, ItemStringSet subset ) {
+		
+		String[] complement = new String[ superset.size() - subset.size() ];
+		int complementIndex = 0;
+		for( String oneSupersetAttribute : superset.getSet() ) {
+			boolean subsetAttribInSuperset = false;
+			for( String oneSubsetAttribute : subset.getSet() ) {
+				if( oneSubsetAttribute.equals(oneSupersetAttribute) ) {
+					subsetAttribInSuperset = true;
+					break;
+				}
+			}
+			if( false == subsetAttribInSuperset ) {
+				complement[complementIndex++] = oneSupersetAttribute;
+			}
+		}
+		return new ItemStringSet( complement );
+	}
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+	///// data methods
+	
+	
+	///// Methods specific to the Favorite programming languages survey attribute
 	
     public List<ItemStringSet> getAllDistinctProgrammingLanguages() {
     	// we're focusing on the preferred programming languages attribute here
@@ -266,6 +378,8 @@ public class Apriori {
 		return transactions;
     }
     
+    
+    ///// Methods specific to textbook example data.
     
     /**
      * Data from Table 6.1 in the textbook, Data Mining Concepts and Techniques, 3rd edition

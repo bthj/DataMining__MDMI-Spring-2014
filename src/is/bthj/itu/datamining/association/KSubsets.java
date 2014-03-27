@@ -1,12 +1,10 @@
-package is.bthj.itu.datamining.frequency;
+package is.bthj.itu.datamining.association;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class KSubsets {
-	
-
 	
 	private ItemStringSet superset;
 	private List<ItemStringSet> subsets;

@@ -1,4 +1,4 @@
-package is.bthj.itu.datamining.frequency;
+package is.bthj.itu.datamining.association;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -31,6 +31,17 @@ public class ItemStringSet implements Comparable<ItemStringSet> {
      */
     public ItemStringSet( String[] set1, String[] set2 ) {
     	this.set = concatenate(set1, set2);
+    	Arrays.sort( this.set );
+    }
+    
+    /**
+     * Create a new ItemStringSet instance
+     * from the concatenation of two other 
+     * ItemStringSet instances.
+     */
+    public ItemStringSet( ItemStringSet set1, ItemStringSet set2 ) {
+    	this.set = concatenate( set1.getSet(), set2.getSet() );
+    	Arrays.sort( this.set );
     }
 
     @Override
@@ -55,6 +66,7 @@ public class ItemStringSet implements Comparable<ItemStringSet> {
     	StringBuilder setConcatenation = new StringBuilder();
     	for( int i = 0; i < set.length; i++ ) {
     		setConcatenation.append( set[i] );
+    		if( i < set.length - 1 ) setConcatenation.append(",");
     	}
     	return setConcatenation.toString();
     }
