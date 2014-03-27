@@ -82,7 +82,7 @@ public class ClassificationKNN {
 	}
 	
 	
-	// Hardcoded target attribute:  Do you think there should be more mountains in Denmark?
+	// Hardcoded target attribute:  _Do you think there should be more mountains in Denmark?_
 	// ...yes, choice of target attribute should dynamically configurable (TODO)
 	
 	
@@ -97,10 +97,10 @@ public class ClassificationKNN {
 					getKNearestTrainingNeighboursToTuple(
 							oneTuple, k, getTrainingSet(questionaireTuples) );
 			
-			// TODO: Find the dominant target value.
+			// Find the dominant target value.
 			BooleanSynonyms dominantTargetValue = 
 					getDominantAnswerToMountains( kNearestNeighbours );
-			// TODO: Evaluate correctness of dominant target value...
+			// Evaluate correctness of dominant target value...
 			if( dominantTargetValue == oneTuple.getMoreMountainsShouldBeInDenmark() ) {
 				correctClassificationCount++;
 			}
