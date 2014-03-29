@@ -1,5 +1,6 @@
 package is.bthj.itu.datamining.classification;
 
+import is.bthj.itu.datamining.FileWritingHelper;
 import is.bthj.itu.datamining.preprocessing.CSVFileReader;
 import is.bthj.itu.datamining.preprocessing.QuestionairePreProcessor;
 import is.bthj.itu.datamining.preprocessing.data.DataCollectionQuestionaire;
@@ -30,6 +31,10 @@ public class ClassificationKNN {
 			Map<Integer, Float> kVSaccuracy = new TreeMap<Integer, Float>();
 			for( int k=1; k <= 30; k++ ) {
 				
+				/*
+				 * Questionnaire attribute to find the dominant target value of is:
+				 * Do you think there should be more mountains in Denmark?
+				 */
 				float accuracyForK = testAccuracyWithKNN( questionaireTuples, k );
 				
 				kVSaccuracy.put( k, accuracyForK );
@@ -41,13 +46,15 @@ public class ClassificationKNN {
 			//writeKandAccuracyToFile( kVSaccuracy, "kVSaccuracy__color_attribute.tab" );
 			//writeKandAccuracyToFile( kVSaccuracy, "kVSaccuracy__age_attribute.tab" );
 			//writeKandAccuracyToFile( kVSaccuracy, "kVSaccuracy__operating_system_attribute.tab" );
-			writeKandAccuracyToFile( kVSaccuracy, "kVSaccuracy__age_programmingSkill_yearsAtUni_attribute.tab" );
+			FileWritingHelper.writeMapToFile( kVSaccuracy, "kVSaccuracy__age_programmingSkill_yearsAtUni_attribute.tab" );
 			
 		} catch (IOException e) {
 			System.err.println(e.getLocalizedMessage());
 		}
 	}
 	
+/*  see FileWritingHelper
+ * 
 	private static void writeKandAccuracyToFile( Map<Integer, Float> kVSaccuracy, String fileName ) {
 		
 		try {
@@ -80,6 +87,7 @@ public class ClassificationKNN {
 //		System.out.println( accuracyAxis.toString() );
 //		System.out.println( "plot( k, accuracy )" ); 
 	}
+*/
 	
 	
 	// Hardcoded target attribute:  _Do you think there should be more mountains in Denmark?_

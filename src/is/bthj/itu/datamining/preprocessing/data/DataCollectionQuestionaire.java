@@ -1,6 +1,7 @@
 package is.bthj.itu.datamining.preprocessing.data;
 import is.bthj.itu.datamining.preprocessing.enums.BooleanSynonyms;
 
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -39,6 +40,39 @@ public class DataCollectionQuestionaire {
 //	int missingFibonacciNumber;
 //	String nameOfGivenSequence;
 	
+	
+	@Override
+	/**
+	 * Used to determine whether two DataCollectionQuestionaire objects are equal
+	 */
+	public boolean equals( Object o ) {
+		if( !(o instanceof DataCollectionQuestionaire) ) {
+			return false;
+		}
+		
+		return this.age == ((DataCollectionQuestionaire) o).getAge() &&
+				this.programmingSkill == ((DataCollectionQuestionaire) o).getProgrammingSkill() &&
+				this.yearsAtUniversiy == ((DataCollectionQuestionaire) o).getYearsAtUniversiy() &&
+				this.operatingSystemPreference.equals( ((DataCollectionQuestionaire) o).getOperatingSystemPreference() ) &&
+				Arrays.equals( this.favoriteProgrammingLanguages, ((DataCollectionQuestionaire) o).getFavoriteProgrammingLanguages() ) &&
+				this.moreMountainsShouldBeInDenmark == ((DataCollectionQuestionaire) o).getMoreMountainsShouldBeInDenmark() &&
+				this.fedUpWithWinter == ((DataCollectionQuestionaire) o).getFedUpWithWinter() &&
+				this.favoriteColour.equals( ((DataCollectionQuestionaire) o).getFavoriteColour() );
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Age: ").append(this.age).append(", ");
+		stringBuilder.append("programming skill: ").append(this.programmingSkill).append(", ");
+		stringBuilder.append("years at university: ").append(this.yearsAtUniversiy).append(", ");
+		stringBuilder.append("preferred OS: ").append(this.operatingSystemPreference).append(", ");
+		stringBuilder.append("favorite programming language: ").append(Arrays.toString(this.favoriteProgrammingLanguages)).append(", ");
+		stringBuilder.append("more mountains in Denmark?: ").append(this.moreMountainsShouldBeInDenmark).append(", ");
+		stringBuilder.append("fed up with winter?: ").append(this.fedUpWithWinter).append(", ");
+		stringBuilder.append("favorite color: ").append(this.favoriteColour).append(", ");
+		return stringBuilder.toString();
+	}
 	
 	
 	public int getAge() {
