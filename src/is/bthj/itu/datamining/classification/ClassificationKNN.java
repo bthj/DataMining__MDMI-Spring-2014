@@ -53,47 +53,18 @@ public class ClassificationKNN {
 		}
 	}
 	
-/*  see FileWritingHelper
- * 
-	private static void writeKandAccuracyToFile( Map<Integer, Float> kVSaccuracy, String fileName ) {
-		
-		try {
-		
-			FileWriter writer = new FileWriter( fileName );
-			
-			for( Map.Entry<Integer, Float> entryPoint : kVSaccuracy.entrySet() ) {
-				
-				writer.append( entryPoint.getKey().toString() ).append('\t');
-				writer.append( entryPoint.getValue().toString() ).append('\n');
-			}
-			
-			writer.flush();
-			writer.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-//		StringBuilder kAxis = new StringBuilder("k <- [");
-//		StringBuilder accuracyAxis = new StringBuilder("accuracy <- [");
-//		for( Map.Entry<Integer, Float> entryPoint : kVSaccuracy.entrySet() ) {
-//	    	kAxis.append( entryPoint.getKey() ).append(",");
-//	    	accuracyAxis.append( entryPoint.getValue() ).append(",");
-//	    }
-//		kAxis.append("]");
-//		accuracyAxis.append("]");
-//		System.out.println( kAxis.toString() );
-//		System.out.println( accuracyAxis.toString() );
-//		System.out.println( "plot( k, accuracy )" ); 
-	}
-*/
-	
-	
-	// Hardcoded target attribute:  _Do you think there should be more mountains in Denmark?_
-	// ...yes, choice of target attribute should dynamically configurable (TODO)
-	
-	
+
+	/**
+	 * Determine how accurately tuples from a test set are classified 
+	 * according to their k nearest neighbors in a training set.
+	 * 
+	 * Hard coded target attribute:  _Do you think there should be more mountains in Denmark?_
+	 * TODO: Choice of target attribute should dynamically configurable .
+	 * 
+	 * @param questionaireTuples The data set.
+	 * @param k The k-nearest neighbors.
+	 * @return The classification accuracy obtained with the given value of k.
+	 */
 	static float testAccuracyWithKNN( 
 			List<DataCollectionQuestionaire> questionaireTuples, int k ) {
 		
@@ -186,7 +157,7 @@ public class ClassificationKNN {
 				tuple.getProgrammingSkill(), oneNeighbour.getProgrammingSkill() );
 		
 		sumOfSquaredDistances += distanceBetweenNumericValues(
-				tuple.getYearsAtUniversiy(), oneNeighbour.getYearsAtUniversiy());
+				tuple.getYearsAtUniversiy(), oneNeighbour.getYearsAtUniversiy() );
 //		
 //		sumOfSquaredDistances += distanceBetweenNominalValues(
 //				tuple.getOperatingSystemPreference(), oneNeighbour.getOperatingSystemPreference() );

@@ -51,7 +51,8 @@ public class KMeans {
 				FileWritingHelper.writeMapToFile( kVSsumOfSquaredErrors, "kVSsumOfSquaredErrors__k_2-10.tab" );
 				
 				
-				// the following to partition only once per partion size:
+				// the following to partition only once per partion size
+				// instead of the getAverageOfSquareErrorSumsForKPartitions call:
 				
 				//List<KMeanCluster> clusters = kMeans.kMeansPartition( k, questionaireTuples );
 				
