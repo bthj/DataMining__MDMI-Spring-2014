@@ -1,10 +1,11 @@
 package is.bthj.itu.datamining.flicksters;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class KMeanCluster<T> {
 
-	protected List<T> clusterMembers;
+	protected Set<T> clusterMembers;
 
 
 	/**
@@ -45,7 +46,7 @@ public abstract class KMeanCluster<T> {
 		return clusterMembers.size();
 	}
 	
-	List<T> getClusterMembers() {
+	Set<T> getClusterMembers() {
 		return this.clusterMembers;
 	}
 	

@@ -2,6 +2,7 @@ package is.bthj.itu.datamining.flicksters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 	
 	public KMeanClusterOfFlickrPhotos() {
 		
-		this.clusterMembers = new ArrayList<FlickrPhotos>();
+		this.clusterMembers = new HashSet<FlickrPhotos>();
 		this.tupleUTMRef = new HashMap<String, UTMRef>();
 	}
 	
