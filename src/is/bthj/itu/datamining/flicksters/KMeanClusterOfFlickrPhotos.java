@@ -67,7 +67,7 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 	public float getSumOfSquaredDistancesToMean() {
 		float squaredDistancesSum = 0;
 		for( FlickrPhotos oneTuple : clusterMembers ) {
-			squaredDistancesSum += getTupleDistanceToClusterMean(oneTuple);
+			squaredDistancesSum += Math.pow( getTupleDistanceToClusterMean(oneTuple), 2 );
 		}
 		return squaredDistancesSum;
 	}

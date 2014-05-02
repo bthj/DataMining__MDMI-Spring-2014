@@ -25,4 +25,21 @@ public class FileWritingHelper {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void writeStringToFile( String stringToWrite, String fileName ) {
+		
+		try {
+					
+			FileWriter writer = new FileWriter( fileName );
+			
+			writer.append( stringToWrite );
+			writer.append('\n');
+			
+			writer.flush();
+			writer.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -23,6 +23,14 @@ public class SquareErrorsSummator<T> {
 	
 
 	public static void main(String[] args) {
+		int kFrom, kTo;
+		if( args.length == 2 ) {
+			kFrom = Integer.parseInt(args[0]);
+			kTo = Integer.parseInt(args[1]);
+		} else {
+			kFrom = 2;
+			kTo = 10;
+		}
 		
 		SquareErrorsSummator<FlickrPhotos> errorSummator = new SquareErrorsSummator<FlickrPhotos>();
 		
@@ -32,7 +40,7 @@ public class SquareErrorsSummator<T> {
 		KMeans<FlickrPhotos> kMeans = new KMeans<>();
 		// collection of sums of squared errors, for different values of k, to save to file for plotting:
 		Map<Integer, Float> kVSsumOfSquaredErrors = new TreeMap<Integer, Float>(); 
-		for( int k = 2; k <= 10; k++ ) {
+		for( int k = kFrom; k <= kTo; k++ ) {
 			
 			List<KMeanCluster<FlickrPhotos>> clusters = kMeans.kMeansPartition( k, flickrPhotos );
 			
@@ -40,9 +48,15 @@ public class SquareErrorsSummator<T> {
 			
 			kVSsumOfSquaredErrors.put(k, sumOfSquaredError);
 			
-			System.out.println( "Error for k = " + k + ": " + sumOfSquaredError );
+			String resultString = "Error for k = " + k + ": " + sumOfSquaredError;
+			System.out.println( resultString );
+			FileWritingHelper.writeStringToFile(
+					resultString, 
+					"FlickrPhotos__kVSsumOfSquaredErrors__k_2-10__"+(new java.util.Date().getTime())+".txt" );
 		}
 		
-		FileWritingHelper.writeMapToFile( kVSsumOfSquaredErrors, "FlickrPhotos__kVSsumOfSquaredErrors__k_2-10.tab" );
+		FileWritingHelper.writeMapToFile( 
+				kVSsumOfSquaredErrors, 
+				"FlickrPhotos__kVSsumOfSquaredErrors__k_2-10__"+(new java.util.Date().getTime())+".tab" );
 	}
 }
