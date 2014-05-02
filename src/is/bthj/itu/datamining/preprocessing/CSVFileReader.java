@@ -27,7 +27,7 @@ public class CSVFileReader {
 	 * @return Two dimensional string array containing the data from the csv file
 	 * @throws IOException
 	 */
-	public static String[][] read(String csvFile, boolean useNullForBlank)
+	public static String[][] read(String csvFile, String separator, boolean useNullForBlank)
 			throws IOException {
 		List<String[]> lines = new ArrayList<String[]>();
 
@@ -35,17 +35,17 @@ public class CSVFileReader {
 				csvFile)));
 		// read the header
 		String line = bufRdr.readLine();
-		StringTokenizer tok = new StringTokenizer(line, ";");
+		StringTokenizer tok = new StringTokenizer(line, separator);
 		final int numberOfColumns = tok.countTokens();
 
 		// read each line of text file
 		while ((line = bufRdr.readLine()) != null) {
 			int col = 0;
-			StringTokenizer st = new StringTokenizer(line, ";");
+			StringTokenizer st = new StringTokenizer(line, separator);
 			String[] lineTokens = new String[numberOfColumns];
 			while (st.hasMoreTokens()) {
 				// get next token and store it in the array
-				lineTokens[col] = st.nextToken();
+				lineTokens[col] = st.nextToken().replaceAll("^\"|\"$", "");
 				if (!useNullForBlank && lineTokens[col] == null)
 					lineTokens[col] = "";
 				col++;
@@ -68,7 +68,7 @@ public class CSVFileReader {
 
 	public static void main(String args[]) {
 		try {
-			String[][] data = read("data_mining_2014_dataset.csv", false);
+			String[][] data = read("data_mining_2014_dataset.csv", ";", false);
 			for (String[] line : data) {
 				System.out.println(Arrays.toString(line));
 			}

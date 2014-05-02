@@ -21,7 +21,7 @@ public class KMeans {
 		String[][] data;
 		try {
 			
-			data = CSVFileReader.read( "data_mining_2014_dataset.csv", false );
+			data = CSVFileReader.read( "data_mining_2014_dataset.csv", ";", false );
 			
 			QuestionairePreProcessor preProcessor = new QuestionairePreProcessor();
 			List<DataCollectionQuestionaire> questionaireTuples = 
@@ -141,7 +141,7 @@ public class KMeans {
 			float oneClusterMean = oneCluster.getClusterMean();
 			
 			for( DataCollectionQuestionaire oneObject : oneCluster.getClusterMembers() ) {
-				
+				// TODO: we need to add here, right?!?!
 				squaredErrorSum = (float)
 						Math.pow( getTupleEuclideanDistanceToValue(oneObject, oneClusterMean), 2 );
 			}

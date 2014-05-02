@@ -22,7 +22,7 @@ public class ClassificationKNN {
 		
 		String[][] data;
 		try {
-			data = CSVFileReader.read( "data_mining_2014_dataset.csv", false );
+			data = CSVFileReader.read( "data_mining_2014_dataset.csv", ";", false );
 		
 			QuestionairePreProcessor preProcessor = new QuestionairePreProcessor();
 			List<DataCollectionQuestionaire> questionaireTuples = 

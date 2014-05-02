@@ -357,7 +357,7 @@ public class Apriori {
     	String[][] data;
     	String[][] transactions = null;
 		try {
-			data = CSVFileReader.read( "data_mining_2014_dataset.csv", false );
+			data = CSVFileReader.read( "data_mining_2014_dataset.csv", ";", false );
 		
 			QuestionairePreProcessor preProcessor = new QuestionairePreProcessor();
 			List<DataCollectionQuestionaire> cleanedQuestionaireTuples = 
