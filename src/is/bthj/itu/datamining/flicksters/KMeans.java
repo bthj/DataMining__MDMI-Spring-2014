@@ -19,13 +19,13 @@ public class KMeans<T> {
 		int clusterIterationCount = 0;
 		while( false == noChange ) {
 			
-			System.out.println( "Clustering iteration #" + ++clusterIterationCount );
+			System.out.println( "k = "+k+" Clustering iteration #" + ++clusterIterationCount );
 			
 			noChange = true;
 			
 			int tupleCount = 0;
 			for( T oneTuple : data ) {
-				if( tupleCount % 1000 == 0 ) System.out.println("Processing tuple #" + tupleCount);
+				if( tupleCount % 1000 == 0 ) System.out.println("k = "+k+" Processing tuple #" + tupleCount);
 				
 				boolean oneChange = assignTupleToCluster( oneTuple, clusters );
 				

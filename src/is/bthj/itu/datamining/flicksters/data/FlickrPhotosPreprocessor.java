@@ -16,7 +16,7 @@ public class FlickrPhotosPreprocessor {
 		List<FlickrPhotos> flickrPhotos = new ArrayList<FlickrPhotos>();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			String[][] data = CSVFileReader.read( "CPHpics_sample.csv", ",", false );
+			String[][] data = CSVFileReader.read( "CPHpics.csv", ",", false );
 			
 			for( int i=0; i < data.length; i++ ) {
 				
