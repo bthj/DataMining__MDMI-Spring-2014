@@ -34,6 +34,11 @@ public class KMeans<T> {
 				}
 				tupleCount++;
 			}
+			int i=0;
+			for( KMeanCluster<T> oneCluster : clusters ) {
+				System.out.println( "k = "+k+" Updating mean of cluster #" + ++i );
+				oneCluster.updateClusterMean();
+			}
 		}
 		
 		return clusters;
@@ -47,7 +52,10 @@ public class KMeans<T> {
 		
 		for( T oneSeedObject : getKRandomObjectsFromDataset(k, data) ) {
 
-			clusters.add( KMeanClusterFactory.createKMeanClusterWithSeedObject(oneSeedObject) );
+			KMeanCluster<T> oneCluster = 
+					KMeanClusterFactory.createKMeanClusterWithSeedObject(oneSeedObject);
+			oneCluster.updateClusterMean();
+			clusters.add( oneCluster );
 		}
 		return clusters;
 	}
@@ -76,7 +84,6 @@ public class KMeans<T> {
 			
 			// TODO: For efficiency we should compute the cluster means once per rearrangement pass!
 			float currentClusterMeanTupleDistance = 
-					// getTupleEuclideanDistanceToValue( oneTuple, clusters.get(i).getClusterMean() );
 					clusters.get(i).getTupleDistanceToClusterMean(oneTuple);
 			if( currentClusterMeanTupleDistance < lowestDistanceToClusterMean ) {
 				lowestDistanceToClusterMean = currentClusterMeanTupleDistance;

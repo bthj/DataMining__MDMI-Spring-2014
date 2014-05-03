@@ -1,6 +1,5 @@
 package is.bthj.itu.datamining.flicksters;
 
-import java.util.List;
 import java.util.Set;
 
 public abstract class KMeanCluster<T> {
@@ -15,23 +14,32 @@ public abstract class KMeanCluster<T> {
 	
 	public abstract float getTupleDistanceToClusterMean( T tuple );
 	
-	
-	/**
-	 * Add data object (tuple) to this cluster
-	 */
-	public abstract void addToCluster( T dataObject );
-	
-	/**
-	 * Remove data object from this cluster
-	 */
-	public abstract void removeFromCluster( T dataObject );
-	
-	
 	/**
 	 * For computation of sum of squared error
 	 */
 	public abstract float getSumOfSquaredDistancesToMean();
 	
+	/**
+	 * Update cluster mean value, based on its current set of members
+	 */
+	public abstract void updateClusterMean();
+	
+	
+	/**
+	 * Add data object (tuple) to this cluster
+	 */
+	public void addToCluster( T dataObject ) {
+		
+		clusterMembers.add( dataObject );
+	}
+	
+	/**
+	 * Remove data object from this cluster
+	 */
+	public void removeFromCluster( T dataObject ) {
+		
+		clusterMembers.remove( dataObject );
+	}
 	
 	/**
 	 * Checks if a given tuple is in a given cluster

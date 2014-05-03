@@ -1,9 +1,7 @@
 package is.bthj.itu.datamining.flicksters;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import uk.me.jstott.jcoord.LatLng;
@@ -41,28 +39,6 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 	}
 	
 	
-	/**
-	 * Add data object (tuple) to this cluster
-	 */
-	@Override
-	public void addToCluster( FlickrPhotos dataObject ) {
-		
-		clusterMembers.add( dataObject );
-		
-		clusterMean = null;  // we'll lazily update the cluster mean when needed
-	}
-	
-	/**
-	 * Remove data object from this cluster
-	 */
-	@Override
-	public void removeFromCluster( FlickrPhotos dataObject ) {
-		
-		clusterMembers.remove( dataObject );
-		
-		clusterMean = null;  // we'll lazily update the cluster mean when needed
-	}
-	
 	@Override
 	public float getSumOfSquaredDistancesToMean() {
 		float squaredDistancesSum = 0;
@@ -73,7 +49,7 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 	}
 	
 	
-	private void updateClusterMean() {
+	public void updateClusterMean() {
 		
 		// TODO: converting to UTM on the fly may be too expensive!
 		// 	we might instead want to do something like:  http://www.geomidpoint.com/calculation.html
