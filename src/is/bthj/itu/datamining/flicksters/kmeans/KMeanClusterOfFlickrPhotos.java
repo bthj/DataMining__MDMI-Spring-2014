@@ -1,4 +1,4 @@
-package is.bthj.itu.datamining.flicksters;
+package is.bthj.itu.datamining.flicksters.kmeans;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,9 +6,9 @@ import java.util.Map;
 
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.UTMRef;
-import is.bthj.itu.datamining.flicksters.data.FlickrPhotos;
+import is.bthj.itu.datamining.flicksters.data.FlickrPhoto;
 
-public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
+public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhoto, LatLng> {
 	
 	private LatLng clusterMean;
 	
@@ -16,18 +16,12 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 	
 	public KMeanClusterOfFlickrPhotos() {
 		
-		this.clusterMembers = new HashSet<FlickrPhotos>();
+		this.clusterMembers = new HashSet<FlickrPhoto>();
 		this.tupleUTMRef = new HashMap<String, UTMRef>();
 	}
 	
 	@Override
-	public float getClusterMean() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public float getTupleDistanceToClusterMean(FlickrPhotos tuple) {
+	public float getTupleDistanceToClusterMean(FlickrPhoto tuple) {
 		float distance = 0;
 		
 		if( null == clusterMean ) updateClusterMean();
@@ -42,13 +36,17 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 	@Override
 	public float getSumOfSquaredDistancesToMean() {
 		float squaredDistancesSum = 0;
-		for( FlickrPhotos oneTuple : clusterMembers ) {
+		for( FlickrPhoto oneTuple : clusterMembers ) {
 			squaredDistancesSum += Math.pow( getTupleDistanceToClusterMean(oneTuple), 2 );
 		}
 		return squaredDistancesSum;
 	}
 	
 	
+	public LatLng getClusterMean() {
+		return clusterMean;
+	}
+
 	public void updateClusterMean() {
 		
 		// TODO: converting to UTM on the fly may be too expensive!
@@ -56,7 +54,7 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhotos> {
 		double eastingSums = 0, northingSums = 0;
 		char latZone = '\u0000';
 		int lngZone = 0;
-		for( FlickrPhotos oneTuple : clusterMembers ) {
+		for( FlickrPhoto oneTuple : clusterMembers ) {
 			
 			LatLng tupleLatLng = new LatLng(oneTuple.getLatitude(), oneTuple.getLongitude());
 			

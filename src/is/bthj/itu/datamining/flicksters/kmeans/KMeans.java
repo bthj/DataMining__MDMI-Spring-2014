@@ -1,19 +1,19 @@
-package is.bthj.itu.datamining.flicksters;
+package is.bthj.itu.datamining.flicksters.kmeans;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class KMeans<T> {
+public class KMeans<T,M> {
 
 	/**
 	 * Compute k-means clusters.
 	 * This implementation is dependent on the DataCollectionQuestionaire type:
 	 */
-	public List<KMeanCluster<T>> kMeansPartition( int k, List<T> data) {
+	public List<KMeanCluster<T,M>> kMeansPartition( int k, List<T> data) {
 		
-		List<KMeanCluster<T>> clusters = initializeClusters( k, data );
+		List<KMeanCluster<T,M>> clusters = initializeClusters( k, data );
 		
 		boolean noChange = false;
 		int clusterIterationCount = 0;
@@ -35,7 +35,7 @@ public class KMeans<T> {
 				tupleCount++;
 			}
 			int i=0;
-			for( KMeanCluster<T> oneCluster : clusters ) {
+			for( KMeanCluster<T,M> oneCluster : clusters ) {
 				System.out.println( "k = "+k+" Updating mean of cluster #" + ++i );
 				oneCluster.updateClusterMean();
 			}
@@ -47,12 +47,12 @@ public class KMeans<T> {
 	/**
 	 * Arbritrarily choose k objects from D as the initial cluster centers
 	 */
-	private List<KMeanCluster<T>> initializeClusters( int k, List<T> data ) {
-		List<KMeanCluster<T>> clusters = new ArrayList<KMeanCluster<T>>();
+	private List<KMeanCluster<T,M>> initializeClusters( int k, List<T> data ) {
+		List<KMeanCluster<T,M>> clusters = new ArrayList<KMeanCluster<T,M>>();
 		
 		for( T oneSeedObject : getKRandomObjectsFromDataset(k, data) ) {
 
-			KMeanCluster<T> oneCluster = 
+			KMeanCluster<T,M> oneCluster = 
 					KMeanClusterFactory.createKMeanClusterWithSeedObject(oneSeedObject);
 			oneCluster.updateClusterMean();
 			clusters.add( oneCluster );
@@ -73,7 +73,7 @@ public class KMeans<T> {
 	}
 	
 	
-	private boolean assignTupleToCluster( T oneTuple, List<KMeanCluster<T>> clusters ) {
+	private boolean assignTupleToCluster( T oneTuple, List<KMeanCluster<T,M>> clusters ) {
 		
 		boolean clusterChange = false;
 		

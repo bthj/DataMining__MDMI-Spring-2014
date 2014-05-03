@@ -7,7 +7,7 @@ import java.util.Date;
  * @author bthj
  *
  */
-public class FlickrPhotos {
+public class FlickrPhoto {
 
 	String photoId;
 	String ownerId;
@@ -19,10 +19,10 @@ public class FlickrPhotos {
 	
 	@Override
 	public boolean equals( Object o ) {
-		if( !(o instanceof FlickrPhotos) ) {
+		if( !(o instanceof FlickrPhoto) ) {
 			return false;
 		}
-		return this.photoId.equals( ((FlickrPhotos) o).getPhotoId() );
+		return this.photoId.equals( ((FlickrPhoto) o).getPhotoId() );
 	}
 	
 	@Override

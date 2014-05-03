@@ -11,16 +11,17 @@ import java.util.List;
 
 public class FlickrPhotosPreprocessor {
 
-	public static List<FlickrPhotos> getCPHphotos() {
+	public static List<FlickrPhoto> getCPHphotos() {
 		
-		List<FlickrPhotos> flickrPhotos = new ArrayList<FlickrPhotos>();
+		List<FlickrPhoto> flickrPhotos = new ArrayList<FlickrPhoto>();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			String[][] data = CSVFileReader.read( "CPHpics.csv", ",", false );
+			String[][] data = CSVFileReader.read( 
+					"CPHpics.csv", ",", false );
 			
 			for( int i=0; i < data.length; i++ ) {
 				
-				FlickrPhotos oneFlickrPhoto = new FlickrPhotos();
+				FlickrPhoto oneFlickrPhoto = new FlickrPhoto();
 				oneFlickrPhoto.setPhotoId( data[i][0] );
 				oneFlickrPhoto.setOwnerId( data[i][1] );
 				oneFlickrPhoto.setTags( data[i][2] );

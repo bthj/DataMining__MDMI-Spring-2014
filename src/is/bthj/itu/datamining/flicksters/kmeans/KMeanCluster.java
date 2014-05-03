@@ -1,18 +1,17 @@
-package is.bthj.itu.datamining.flicksters;
+package is.bthj.itu.datamining.flicksters.kmeans;
 
 import java.util.Set;
 
-public abstract class KMeanCluster<T> {
+import uk.me.jstott.jcoord.LatLng;
+
+public abstract class KMeanCluster<T, M> {
 
 	protected Set<T> clusterMembers;
 
-
-	/**
-	 * Compute the mean of the all the objects' values in this cluster
-	 */ 
-	public abstract float getClusterMean();
 	
 	public abstract float getTupleDistanceToClusterMean( T tuple );
+	
+	public abstract M getClusterMean();
 	
 	/**
 	 * For computation of sum of squared error
@@ -54,7 +53,7 @@ public abstract class KMeanCluster<T> {
 		return clusterMembers.size();
 	}
 	
-	Set<T> getClusterMembers() {
+	public Set<T> getClusterMembers() {
 		return this.clusterMembers;
 	}
 	
