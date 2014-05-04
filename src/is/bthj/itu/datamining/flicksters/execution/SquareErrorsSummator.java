@@ -36,19 +36,25 @@ public class SquareErrorsSummator<T,M> {
 	
 
 	public static void main(String[] args) {
-		int kFrom, kTo;
-		if( args.length == 2 ) {
-			kFrom = Integer.parseInt(args[0]);
-			kTo = Integer.parseInt(args[1]);
+		String dataFilename = null;
+		int kFrom = 0, kTo = 0;
+		if( args.length != 3 ) {
+			System.err.println(
+					"Required parameters missing: \n"+
+					"A parameter with the data file name and \n" + 
+					"two integer parameters defining a range of values of k \n" +
+					"for which inclusive to compute sums of squared error from the k-means method.");
+			System.exit(0);
 		} else {
-			kFrom = 2;
-			kTo = 10;
+			dataFilename = args[0];
+			kFrom = Integer.parseInt(args[1]);
+			kTo = Integer.parseInt(args[2]);
 		}
 		
 		SquareErrorsSummator<FlickrPhoto, LatLng> errorSummator = 
 				new SquareErrorsSummator<FlickrPhoto, LatLng>();
 		
-		List<FlickrPhoto> flickrPhotos = FlickrPhotosPreprocessor.getCPHphotos();
+		List<FlickrPhoto> flickrPhotos = FlickrPhotosPreprocessor.getFlickrPhotos(dataFilename);
 		
 		
 		KMeans<FlickrPhoto,LatLng> kMeans = new KMeans<>();
@@ -64,9 +70,9 @@ public class SquareErrorsSummator<T,M> {
 			
 			String resultString = "Error for k = " + k + ": " + sumOfSquaredError;
 			System.out.println( resultString );
-			FileWritingHelper.writeStringToFile(
-					resultString, 
-					"FlickrPhotos__kVSsumOfSquaredErrors__k_2-10__"+(new java.util.Date().getTime())+".txt" );
+//			FileWritingHelper.writeStringToFile(
+//					resultString, 
+//					"FlickrPhotos__kVSsumOfSquaredErrors__k_2-10__"+(new java.util.Date().getTime())+".txt" );
 		}
 		
 		FileWritingHelper.writeMapToFile( 

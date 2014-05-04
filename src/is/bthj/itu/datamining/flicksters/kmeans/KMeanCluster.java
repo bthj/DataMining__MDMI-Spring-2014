@@ -4,6 +4,13 @@ import java.util.Set;
 
 import uk.me.jstott.jcoord.LatLng;
 
+/**
+ * 
+ * @author bthj
+ *
+ * @param <T> The type of each tuple in the cluster
+ * @param <M> The type of the cluster's mean.
+ */
 public abstract class KMeanCluster<T, M> {
 
 	protected Set<T> clusterMembers;

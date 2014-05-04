@@ -108,33 +108,34 @@ public class FlickrPhotoPartitioning {
 			flickrPhotoClusterGroup.put( "Cluster"+ ++clusterCount, photoCluster );
 		}
 		
+		// see https://github.com/FasterXML/jackson-databind/
 		ObjectMapper mapper = new ObjectMapper();
-		try {
+		
 			
-			mapper.writeValue( new File(fileName), flickrPhotoClusterGroup );
+			try {
+				mapper.writeValue( new File(fileName), flickrPhotoClusterGroup );
+				
+			} catch (IOException e) {
+				System.err.println(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
 			
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	public static void main(String[] args) {
+		String dataFilename = null;
 		int k = 0;
-		if( args.length != 1 ) {
-			System.err.println("A parameter with an integer value for k is required.");
+		if( args.length != 2 ) {
+			System.err.println(
+					"A parameter with the data file name and a parameter with an integer value for k is required.");
 			System.exit(0);
 		} else {
-			k = Integer.parseInt(args[0]);
+			dataFilename = args[0];
+			k = Integer.parseInt(args[1]);
 		}
 		
-		List<FlickrPhoto> flickrPhotos = FlickrPhotosPreprocessor.getCPHphotos();
+		List<FlickrPhoto> flickrPhotos = FlickrPhotosPreprocessor.getFlickrPhotos(dataFilename);
 		
 		KMeans<FlickrPhoto, LatLng> kMeans = new KMeans<FlickrPhoto, LatLng>();
 		while( true ) {

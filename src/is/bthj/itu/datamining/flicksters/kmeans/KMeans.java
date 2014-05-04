@@ -5,11 +5,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 
+ * @author bthj
+ *
+ * @param <T> The type of each tuple in the cluster
+ * @param <M> The type of the cluster's mean.
+ */
+
 public class KMeans<T,M> {
 
 	/**
 	 * Compute k-means clusters.
-	 * This implementation is dependent on the DataCollectionQuestionaire type:
 	 */
 	public List<KMeanCluster<T,M>> kMeansPartition( int k, List<T> data) {
 		
