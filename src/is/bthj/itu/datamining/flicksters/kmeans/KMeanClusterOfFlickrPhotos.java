@@ -52,6 +52,7 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhoto, LatLng
 		// TODO: converting to UTM on the fly may be too expensive!
 		// 	we might instead want to do something like:  http://www.geomidpoint.com/calculation.html
 		double eastingSums = 0, northingSums = 0;
+		// TODO: Handle the case where cluster coordinates span different UTM zones - if needed?
 		char latZone = '\u0000';
 		int lngZone = 0;
 		for( FlickrPhoto oneTuple : clusterMembers ) {

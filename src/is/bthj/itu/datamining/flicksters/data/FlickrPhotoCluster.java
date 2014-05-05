@@ -6,24 +6,30 @@ import uk.me.jstott.jcoord.LatLng;
 
 public class FlickrPhotoCluster {
 
-	private LatLng centroid;
-	private int meberCount;
+	private double centroidLongitude;
+	private double centroidLatitude;
+	private int memberCount;
 	private String mostFrequentTag;
 	private List<FlickrPhoto> tuples;
 	
 	
-	
-	public LatLng getCentroid() {
-		return centroid;
+	public double getCentroidLongitude() {
+		return centroidLongitude;
 	}
-	public void setCentroid(LatLng centroid) {
-		this.centroid = centroid;
+	public void setCentroidLongitude(double centroidLongitude) {
+		this.centroidLongitude = centroidLongitude;
 	}
-	public int getMeberCount() {
-		return meberCount;
+	public double getCentroidLatitude() {
+		return centroidLatitude;
 	}
-	public void setMeberCount(int meberCount) {
-		this.meberCount = meberCount;
+	public void setCentroidLatitude(double centroidLatitude) {
+		this.centroidLatitude = centroidLatitude;
+	}
+	public int getMemberCount() {
+		return memberCount;
+	}
+	public void setMemberCount(int memberCount) {
+		this.memberCount = memberCount;
 	}
 	public String getMostFrequentTag() {
 		return mostFrequentTag;

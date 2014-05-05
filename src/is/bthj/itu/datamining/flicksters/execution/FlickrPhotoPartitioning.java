@@ -40,6 +40,7 @@ public class FlickrPhotoPartitioning {
 		tagsStopList.add("copenhagen");
 		tagsStopList.add("denmark");
 		tagsStopList.add("københavn");
+		tagsStopList.add("kobenhavn");
 		tagsStopList.add("europe");
 		tagsStopList.add("danmark");
 		tagsStopList.add("copenhague");
@@ -47,6 +48,7 @@ public class FlickrPhotoPartitioning {
 		tagsStopList.add("nordic");
 		tagsStopList.add("scandinavia");
 		tagsStopList.add("northerneurope");
+		tagsStopList.add("cph");
 	}
 	
 	private static String findMostFrequentTagInFlickrPhotos( 
@@ -96,8 +98,9 @@ public class FlickrPhotoPartitioning {
 		for( KMeanCluster<FlickrPhoto, LatLng> oneKmeansCluster : clusters ) {
 			
 			FlickrPhotoCluster photoCluster = new FlickrPhotoCluster();
-			photoCluster.setCentroid( oneKmeansCluster.getClusterMean() );
-			photoCluster.setMeberCount( oneKmeansCluster.getClusterMembers().size() );
+			photoCluster.setCentroidLatitude( oneKmeansCluster.getClusterMean().getLat() );
+			photoCluster.setCentroidLongitude( oneKmeansCluster.getClusterMean().getLng() );
+			photoCluster.setMemberCount( oneKmeansCluster.getClusterMembers().size() );
 			
 			List<FlickrPhoto> flickrPhotosInCluster =
 					new ArrayList<FlickrPhoto>(oneKmeansCluster.getClusterMembers());
@@ -110,7 +113,6 @@ public class FlickrPhotoPartitioning {
 		
 		// see https://github.com/FasterXML/jackson-databind/
 		ObjectMapper mapper = new ObjectMapper();
-		
 			
 			try {
 				mapper.writeValue( new File(fileName), flickrPhotoClusterGroup );
@@ -140,7 +142,7 @@ public class FlickrPhotoPartitioning {
 		KMeans<FlickrPhoto, LatLng> kMeans = new KMeans<FlickrPhoto, LatLng>();
 		while( true ) {
 			String kMeansClusterGroupFileName = 
-					"kMeansClusterGroupForK"+k+"__"+(new java.util.Date().getTime())+".json";
+					FilenameConstants.clusterGroupPrefix+k+"__"+(new java.util.Date().getTime())+".json";
 			System.out.println("Starting on: " + kMeansClusterGroupFileName );
 			
 			List<KMeanCluster<FlickrPhoto, LatLng>> clusters = 
