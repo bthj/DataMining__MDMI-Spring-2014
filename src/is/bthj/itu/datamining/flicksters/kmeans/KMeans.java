@@ -80,7 +80,7 @@ public class KMeans<T,M> {
 	}
 	
 	
-	private boolean assignTupleToCluster( T oneTuple, List<KMeanCluster<T,M>> clusters ) {
+	public boolean assignTupleToCluster( T oneTuple, List<KMeanCluster<T,M>> clusters ) {
 		
 		boolean clusterChange = false;
 		

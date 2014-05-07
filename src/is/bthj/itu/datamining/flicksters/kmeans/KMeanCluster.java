@@ -19,6 +19,7 @@ public abstract class KMeanCluster<T, M> {
 	public abstract float getTupleDistanceToClusterMean( T tuple );
 	
 	public abstract M getClusterMean();
+	public abstract void setClusterMean( M mean );
 	
 	/**
 	 * For computation of sum of squared error

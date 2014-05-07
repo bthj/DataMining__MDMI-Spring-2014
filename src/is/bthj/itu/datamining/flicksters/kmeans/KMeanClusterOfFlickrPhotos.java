@@ -42,11 +42,15 @@ public class KMeanClusterOfFlickrPhotos extends KMeanCluster<FlickrPhoto, LatLng
 		return squaredDistancesSum;
 	}
 	
-	
+	@Override
 	public LatLng getClusterMean() {
 		return clusterMean;
 	}
-
+	@Override
+	public void setClusterMean( LatLng mean ) {
+		this.clusterMean = mean;
+	}
+ 
 	public void updateClusterMean() {
 		
 		// TODO: converting to UTM on the fly may be too expensive!

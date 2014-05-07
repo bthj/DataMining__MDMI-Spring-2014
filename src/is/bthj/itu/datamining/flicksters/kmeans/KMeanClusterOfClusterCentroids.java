@@ -33,6 +33,10 @@ public class KMeanClusterOfClusterCentroids extends KMeanCluster<ClusterCentroid
 
 		return clusterMean;
 	}
+	@Override
+	public void setClusterMean( LatLng mean ) {
+		this.clusterMean = mean;
+	}
 
 	@Override
 	public float getSumOfSquaredDistancesToMean() {
